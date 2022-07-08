@@ -1,16 +1,9 @@
-function ImagePopup({onClose, isOpen, card}) {
-
-  function closePopupOnOverlay(evt) {
-    if(evt.target === evt.currentTarget) {
-      onClose();
-    }
-  }
-
+function ImagePopup({onClose, onOverlayClose, isOpen, card}) {
   return (
     <div className={isOpen 
       ? "popup popup_type_view-image popup_opened"
       : "popup popup_type_view-image"}
-      onMouseDown={closePopupOnOverlay}
+      onMouseDown={onOverlayClose}
     >
       <div className="popup__image-container">
         <img src={card.link} alt={card.name} className="popup__image"/>

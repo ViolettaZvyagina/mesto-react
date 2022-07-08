@@ -1,17 +1,9 @@
-function PopupWithForm({name, title, children, buttonName, isOpen, onClose}) {
-
-      function closePopupOnOverlay(evt) {
-        if(evt.target === evt.currentTarget) {
-          onClose();
-        }
-      }
-
-
+function PopupWithForm({name, title, children, buttonName, isOpen, onClose, onOverlayClose}) {
   return (
     <div className={isOpen
       ? `popup popup_type_${name} popup_opened`
       : `popup popup_type_${name}`} 
-      onMouseDown={closePopupOnOverlay}>
+      onMouseDown={onOverlayClose}>
       <div className="popup__container">
         <form action="#" name={name} className="popup__form" noValidate>
           <h2 className="popup__title">{title}</h2>

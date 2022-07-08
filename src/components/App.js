@@ -25,7 +25,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({});
   }
 
   function handleEditProfileClick() {
@@ -42,6 +42,12 @@ function App() {
 
   function handleImagePopupClick() {
     setIsImagePopupOpen(true);
+  }
+
+  function closePopupOnOverlay(evt) {
+    if(evt.target === evt.currentTarget) {
+      closeAllPopups();
+    }
   }
 
   useEffect(() => {
@@ -78,6 +84,7 @@ function App() {
       buttonName="Сохранить"
       isOpen={isEditProfilePopupOpen}
       onClose={closeAllPopups}
+      onOverlayClose={closePopupOnOverlay}
     >
       <input 
         required 
@@ -109,6 +116,7 @@ function App() {
       buttonName="Создать"
       isOpen={isAddPlacePopupOpen}
       onClose={closeAllPopups}
+      onOverlayClose={closePopupOnOverlay}
     >
       <input 
         required
@@ -138,6 +146,7 @@ function App() {
       buttonName="Сохранить"
       isOpen={isEditAvatarPopupOpen}
       onClose={closeAllPopups}
+      onOverlayClose={closePopupOnOverlay}
     >
       <input 
         required 
@@ -154,6 +163,7 @@ function App() {
       onClose={closeAllPopups}
       card={selectedCard}
       isOpen={isImagePopupOpen}
+      onOverlayClose={closePopupOnOverlay}
     />
 
   </div>
