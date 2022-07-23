@@ -1,38 +1,21 @@
-import { useEffect, useState } from "react";
-import { api } from "../utils/api";
+import React from 'react';
 import Card from "./Card";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-function Main({isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, onCardClick}) {
+function Main({isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, onCardClick, onCardLike, onCardDelete, cards}) {
 
-  const [userName, setUserName] = useState('');
-  const [userDescription, setUserDescription] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    Promise.all([api.getUsersInfo(), api.getCards()])
-      .then(([user, cardInfo]) => {
-        setUserName(user.name);
-        setUserDescription(user.about);
-        setUserAvatar(user.avatar);
-        setCards(cardInfo);
-      })
-      .catch((error) => {
-        console.log(`Ошибка: ${error}`);
-      })
-  }, [])
-
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar-cover" onClick={isEditAvatarPopupOpen}>
-          <img src={userAvatar} alt="Изображение загружается" className="profile__avatar"/>
+          <img src={currentUser.avatar} alt="Изображение загружается" className="profile__avatar"/>
         </div>
         <div className="profile__info">
         <div className="profile__text">
-          <h1 className="profile__user-name">{userName}</h1>
-          <p className="profile__user-activity">{userDescription}</p>
+          <h1 className="profile__user-name">{currentUser.name}</h1>
+          <p className="profile__user-activity">{currentUser.about}</p>
         </div>
         <button type="button" aria-label="Редактировать" className="profile__edit-button" onClick={isEditProfilePopupOpen}></button>
         </div>
@@ -47,6 +30,8 @@ function Main({isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpe
               card={card}
               key={card._id}
               onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
             />)
             })
           }
