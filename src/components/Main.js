@@ -2,7 +2,7 @@ import React from 'react';
 import Card from "./Card";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-function Main({isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, onCardClick, onCardLike, onCardDelete, cards}) {
+function Main({isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, onCardClick, onCardLike, cards, onCardDelete}) {
 
   const currentUser = React.useContext(CurrentUserContext);
 

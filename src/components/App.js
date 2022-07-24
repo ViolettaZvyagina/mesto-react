@@ -5,6 +5,7 @@ import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import PopupWithConfirm from "./PopupWithConfirm";
 import { api } from "../utils/api";
 import { useEffect, useState } from "react";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
@@ -15,18 +16,21 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [isPopupWithConfirmOpen, setIsPopupWithConfirmOpen] = useState(false);
   
   const [selectedCard, setSelectedCard] = useState({});
 
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
-
-
-
   function handleCardClick(card) {
     setSelectedCard(card);
     handleImagePopupClick();
+  }
+
+  function handleDeleteCardClick(card) {
+    setSelectedCard(card);
+    handlePopupWithConfirmClick();
   }
 
   function closeAllPopups() {
@@ -34,6 +38,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
+    setIsPopupWithConfirmOpen(false);
     setSelectedCard({});
   }
 
@@ -51,6 +56,10 @@ function App() {
 
   function handleImagePopupClick() {
     setIsImagePopupOpen(true);
+  }
+
+  function handlePopupWithConfirmClick() {
+    setIsPopupWithConfirmOpen(true);
   }
 
   function closePopupOnOverlay(evt) {
@@ -115,7 +124,7 @@ function App() {
   }
 
   useEffect(() => {
-    if(isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen) {
+    if(isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isPopupWithConfirmOpen) {
       function handleEscClose(evt) {
         if(evt.key === 'Escape') {
           closeAllPopups();
@@ -127,7 +136,7 @@ function App() {
         document.removeEventListener('keydown', handleEscClose); 
       }
     }
-  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isImagePopupOpen]);
+  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isImagePopupOpen, isPopupWithConfirmOpen]);
 
   useEffect(() => {
     Promise.all([api.getUsersInfo(), api.getCards()])
@@ -152,7 +161,7 @@ function App() {
         isEditAvatarPopupOpen={handleEditAvatarClick}
         onCardClick={handleCardClick}
         onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete}
+        onCardDelete={handleDeleteCardClick}
         cards={cards}
       />
 
@@ -184,6 +193,14 @@ function App() {
         card={selectedCard}
         isOpen={isImagePopupOpen}
         onOverlayClose={closePopupOnOverlay}
+      />
+
+      <PopupWithConfirm
+        isOpen={isPopupWithConfirmOpen}
+        onClose={closeAllPopups}
+        onOverlayClose={closePopupOnOverlay}
+        card={selectedCard}
+        onConfirmDelete={handleCardDelete}
       />
 
     </div>
