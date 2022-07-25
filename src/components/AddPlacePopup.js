@@ -5,7 +5,6 @@ function AddPlacePopup({isOpen, onClose, onOverlayClose, onAddPlace}) {
  
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
-
   
   useEffect(() => {
     setName('');

@@ -37,9 +37,6 @@ function Main({isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpe
           }
         </ul>
       </section>
-      
-      
-
     </main>
   )
 }

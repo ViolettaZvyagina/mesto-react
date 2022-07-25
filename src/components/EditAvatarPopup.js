@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 function EditAvatarPopup({isOpen, onClose, onOverlayClose, onUpdateAvatar}) {
 
-    const avatarRef = useRef('');
+    const avatarRef = useRef(null);
 
     useEffect(() => {
       avatarRef.current.value = '';
